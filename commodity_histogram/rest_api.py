@@ -20,9 +20,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 templates = Jinja2Templates(directory="templates")
-
 
 @app.get("/")
 def home():

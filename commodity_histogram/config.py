@@ -17,7 +17,6 @@ if CONFIG_PATH is None:
     print("Unable to find config.ini")
     exit(1)
 
-
 _config = configparser.ConfigParser()
 _config.read(CONFIG_PATH)
 
@@ -27,7 +26,6 @@ try:
     Path(LOG_DIR).mkdir(parents=True, exist_ok=True)
 except Exception as e:
     print("Unable to utilize logging path: " + CONFIG_PATH)
-
 
 SQL_DB_HOSTNAME     = _config['sql-database']['hostname']
 SQL_DB_PORT         = int(_config['sql-database']['port'])

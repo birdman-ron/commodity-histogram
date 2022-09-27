@@ -14,5 +14,6 @@ def field_count_aggregate(column_name: str):
 
     return {k: v for k, v in sorted(result_aggregate.items(), key=lambda item: item[1])}
 
+
 def available_column_names_for_route():
     return [v for v in Projection.__dict__.keys() if not v.startswith('_')]
