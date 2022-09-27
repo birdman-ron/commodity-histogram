@@ -55,5 +55,5 @@ if __name__ == "__main__":
     parser.add_argument('--csv', dest='csv_file', required=True, help="Example: python_csv_to_db_table.py --csv foo.csv")
 
     args = parser.parse_args()
-    seed_projection_csv_to_db_table(args.csv_file, args.db_table_name)
+    seed_projection_csv_to_db_table(args.csv_file)
 
