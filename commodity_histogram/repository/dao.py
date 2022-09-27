@@ -1,7 +1,6 @@
 from typing import List
 
 from sqlalchemy import create_engine
-from sqlalchemy import insert
 from sqlalchemy.orm import Session
 
 import config

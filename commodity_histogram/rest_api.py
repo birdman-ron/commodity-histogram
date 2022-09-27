@@ -1,11 +1,11 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from service.histogram import field_count_aggregate
-from fastapi import Depends
+from fastapi.responses import HTMLResponse
+from starlette.templating import Jinja2Templates
 
 import config
+import service.histogram
 from logger import get_logger
-
 
 __logger = get_logger()
 __logger.info("Starting: " + config.SERVICE_NAME)
@@ -21,13 +21,21 @@ app.add_middleware(
 )
 
 
+templates = Jinja2Templates(directory="templates")
+
+
 @app.get("/")
 def home():
-    response = {"service": config.SERVICE_NAME}
-    return response
+    return {"service": config.SERVICE_NAME}
 
 
-@app.get("/test")
-def test():
-    response = {"ok": "something happened!"}
-    return response
+def check_if_column_exist_or_404(column_name: str):
+    if column_name not in service.histogram.available_column_names_for_route():
+        raise HTTPException(status_code=404, detail="Column Not found")
+
+
+@app.get("/{column_name}/histogram", response_class=HTMLResponse)
+def histogram(request: Request, column_name: str):
+    check_if_column_exist_or_404(column_name)
+    values = {"request": request, "column_name": column_name}
+    return templates.TemplateResponse("aggregate_count.html", values)
