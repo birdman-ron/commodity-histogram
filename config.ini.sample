@@ -1,0 +1,13 @@
+[default]
+log_dir = ./logs
+solution_dir = ./delta_solutions
+
+[sql-database]
+hostname = localhost
+port     = 5432
+dbname   = commodity_histogram
+username = joe_fred
+password = password12334
+
+[rest]
+port = 5001
