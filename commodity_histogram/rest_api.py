@@ -7,8 +7,8 @@ import config
 import service.histogram
 from logger import get_logger
 
-__logger = get_logger()
-__logger.info("Starting: " + config.SERVICE_NAME)
+_logger = get_logger()
+_logger.info("Starting: " + config.SERVICE_NAME)
 
 app = FastAPI()
 
@@ -37,5 +37,7 @@ def check_if_column_exist_or_404(column_name: str):
 @app.get("/{column_name}/histogram", response_class=HTMLResponse)
 def histogram(request: Request, column_name: str):
     check_if_column_exist_or_404(column_name)
-    values = {"request": request, "column_name": column_name}
+    aggregate_count_result = service.histogram.field_count_aggregate(column_name)
+
+    values = {"request": request, "column_name": column_name, "aggregate_count_result": aggregate_count_result}
     return templates.TemplateResponse("aggregate_count.html", values)

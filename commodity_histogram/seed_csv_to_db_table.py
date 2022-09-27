@@ -1,10 +1,9 @@
 import argparse
 import csv
-import re
 from typing import List
 
-from repository.models import Projection
 from repository.dao import insert_projections
+from repository.models import Projection
 
 
 def check_column_names(column_names: List[str]):
@@ -27,13 +26,13 @@ def seed_projection_csv_to_db_table(csv_file: str):
 
         for row in csv_reader:
             projection = Projection()
-            projection.attribute = row[0]
-            projection.commodity = row[1]
-            projection.commodity_type = row[2]
-            projection.units = row[3]
-            projection.year_type = row[4]
-            projection.year = int(row[5].split('/')[0])
-            projection.value = float(row[6])
+            projection.Attribute = row[0]
+            projection.Commodity = row[1]
+            projection.CommodityType = row[2]
+            projection.Units = row[3]
+            projection.YearType = row[4]
+            projection.Year = int(row[5].split('/')[0])
+            projection.Value = float(row[6])
 
             projections.append(projection)
             bulk_insert_count += 1
@@ -48,12 +47,8 @@ def seed_projection_csv_to_db_table(csv_file: str):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='This tool imports .csv files into a SQL database table.'
-                                                 'It is assumed the .csv file contains a header which will provide '
-                                                 'the table column name(s)')
-
+    parser = argparse.ArgumentParser(description='This tool imports the projection.csv file into a SQL database table.')
     parser.add_argument('--csv', dest='csv_file', required=True, help="Example: python_csv_to_db_table.py --csv foo.csv")
 
     args = parser.parse_args()
     seed_projection_csv_to_db_table(args.csv_file)
-

@@ -20,13 +20,18 @@ def create_tables_if_not_exist():
     if not db_engine.dialect.has_table(db_connection, Projection.__table__):
         Projection.__table__.create(db_engine)
 
+
 def insert_projections(projections: List[Projection]):
-
     with Session(db_engine) as session:
-
         for projection in projections:
             session.add(projection)
 
         session.commit()
+
+
+def read_from_column(column_name: str):
+    with Session(db_engine) as session:
+        query = session.query(getattr(Projection, column_name))
+        return session.execute(query)
 
 create_tables_if_not_exist()

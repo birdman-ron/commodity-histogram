@@ -3,6 +3,24 @@
     <title>{{ service_name }}</title>
 </head>
 <body>
-    <h2>Aggregate count for column {{ column_name }}</h2>
+<h2>Aggregate count for column {{ column_name }}</h2>
+<table>
+    <thead>
+    <td><strong>Value</strong></td>
+    <td><strong>Occurrence</strong></td>
+    </thead>
+    <tbody>
+    {% for row in aggregate_count_result -%}
+        <tr>
+            <td>
+                {{ row }}
+            </td>
+            <td>
+                {{ aggregate_count_result[row] }}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
 </body>
 </html>
